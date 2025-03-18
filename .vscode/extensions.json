@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "gruntfuggly.todo-tree",
+    "svelte.svelte-vscode",
+    "bierner.markdown-mermaid",
+    "myml.vscode-markdown-plantuml-preview"
+  ]
+}

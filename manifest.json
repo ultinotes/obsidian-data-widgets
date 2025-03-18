@@ -1,0 +1,11 @@
+{
+	"id": "ultinotes-scripts",
+	"name": "Ultinotes",
+	"version": "0.0.9",
+	"minAppVersion": "0.15.0",
+	"description": "Demonstrates some of the capabilities of the Obsidian API.",
+	"author": "Adrian Kiesthardt",
+	"authorUrl": "https://kiesthardt.com",
+	"fundingUrl": "https://kiesthardt.com/funding",
+	"isDesktopOnly": false
+}
