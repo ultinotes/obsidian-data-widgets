@@ -1,20 +1,9 @@
 <script lang="ts">
-  import {
-    getComponentContext,
-    type ComponentContext,
-  } from "../store/componentStore";
-  import { onMount } from "svelte";
-  import { renderMarkdown, type Todo } from "./common";
+  import { type Todo } from "./common";
 
-  export let todo: Todo;
+  let { todo }: { todo: Todo } = $props();
 
-  let contextStore = getComponentContext();
-  let context: ComponentContext | null;
   let noteContainer: HTMLElement;
-
-  onMount(() => {
-    context = $contextStore;
-  });
 
   // TODO: get raw content
   // $: if (noteContainer && context && context.component && todo.rawContent) {

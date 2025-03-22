@@ -1,70 +1,45 @@
-<svelte:options customElement="todo-board" />
-
 <script lang="ts">
-  import { TodoFileRepo } from "./todoFileRepo";
-  import type { TFile } from "obsidian";
-  import { afterUpdate, onMount, setContext } from "svelte";
-  import { writable, type Writable } from "svelte/store";
-  import {
-    getRootHost,
-    passthroughComponentStore,
-    setComponentContext,
-    type ComponentContext,
-  } from "../../../common/store/componentStore";
+  import { onMount } from "svelte";
+
   import TodoDetail from "./TodoDetail.svelte";
-  import TodoElement from "./TodoElement.svelte";
-  import {
-    followLink,
-    type FilterOptions,
-    type GroupOptions,
-    type MarkdownEntity,
-    type Todo,
-  } from "./common";
+  import { type Todo } from "./common";
   import * as _ from "lodash";
   import TodoRow from "./TodoRow.svelte";
   import BoardRow from "./BoardRow.svelte";
   import BoardColumn from "./BoardColumn.svelte";
-  import { binEntriesBy, filterEntries } from "./binSorter";
+  import { binEntriesBy } from "./binSorter";
 
-  export let groupBy: string = ""; // x-axis, second dimension
-  // order groups by listing their names: 'OPEN CLOSED'
-  // groups not named are omitted
-  export let groupFilterOrder: string = "";
-  export let segregateBy: string = ""; // y-axis, first dimensions
-  export let filterBy: string = "";
-  export let filterValue: string = "";
+  // export let groupBy: string = "status"; // x-axis, second dimension
+  // // order groups by listing their names: 'OPEN CLOSED'
+  // // groups not named are omitted
+  // export let groupFilterOrder: string = "";
+  // export let segregateBy: string = "group"; // y-axis, first dimensions
+  // // export let filterBy: string = "";
+  // // export let filterValue: string = "";
+  // export let todos: Todo[] = [];
+
+  let {
+    groupBy = "status",
+    groupFilterOrder = "",
+    segregateBy = "group",
+    todos = [],
+  } = $props();
 
   // TODO: add common error and log channels
   // --> callbacks to add error to doc context
   // TODO: add app bar to display context information for debugging
   // TODO: add to context flags for debugging
 
-  let groupFilterOrderList: string[] = [];
-
-  let todoRepo: TodoFileRepo;
-  let todoMap: Map<MarkdownEntity, Todo> = new Map();
+  let groupFilterOrderList: string[] = $state([]);
 
   // list todos by two dimensions, segregation | group | key
-  let todoLists: Map<string, Map<string, Todo[]>> = new Map();
+  let todoLists: Map<string, Map<string, Todo[]>> = $state(new Map());
+
+  let clickedTodo: Todo | null = $state(null);
 
   let rootElement: HTMLElement;
-  let context: ComponentContext | null;
-  let contextStore: Writable<ComponentContext | null> = writable(null);
-  setComponentContext(contextStore);
 
   onMount(() => {
-    const hostElement = getRootHost(rootElement);
-    const componentStore = passthroughComponentStore(hostElement);
-    if (!componentStore) {
-      console.error("ERROR: component store undefined or null", contextStore);
-      return;
-    }
-    componentStore.subscribe((value) => {
-      contextStore.set(value);
-    });
-    // React to mounting of componentStore
-    context = $contextStore;
-
     // HACK: prevent the backlink and file view from scrolling into view
     // when scrolling the container
     rootElement.addEventListener(
@@ -79,30 +54,14 @@
       },
     );
 
-    TodoFileRepo.listenForTodos((todos) => (todoMap = todos)).then((repo) => {
-      todoRepo = repo;
-    });
-  });
-
-  let clickedTodo: Todo | null = null;
-
-  $: if (todoMap) {
     // TODO: give option to add a new todo when board is empty
     // TODO: hide default group if empty
     // TODO: add option to specify folder for new todos
     // sort into bins
-    console.log("new Todo Map", todoMap);
-    const mapEntries = filterEntries(
-      todoMap.values().toArray(),
-      filterBy,
-      filterValue,
-    );
 
     const unknownGroupName = "NO GROUP";
 
-    console.warn(mapEntries, todoMap.values().toArray());
-
-    const binnedTodos = binEntriesBy(mapEntries, {
+    const binnedTodos = binEntriesBy(todos, {
       segregateBy,
       groupBy,
       defaultGroupName: unknownGroupName,
@@ -115,57 +74,41 @@
       groupFilterOrder === ""
         ? binnedTodos.groups.values().toArray()
         : [unknownGroupName, ...groupFilterOrder.split(" ")];
-  }
+  });
 
-  // FIXME: why is this not consistently triggering a modify event
-  // let toggleClicked = async (file: TFile) => {
-  //   const errors = await todoRepo.changeFrontmatter(file, (frontmatter) => {
-  //     console.info("old clicked: ", frontmatter.clicked);
-  //     if (frontmatter.clicked === true) {
-  //       frontmatter.clicked = false;
-  //     } else {
-  //       frontmatter.clicked = true;
-  //     }
-  //     console.info("new clicked: ", frontmatter.clicked);
-  //   });
-  //   await todoRepo.changeBodyContent(file, (content, meta) => content);
-  //   if (errors) {
-  //     console.log(errors);
+  // const createTodo = (group: string, row: string) => {
+  //   // TODO: extend logic to take special cases like default column names into account
+  //   let newTodo = { type: "todo" } as Record<string, any>;
+  //   if (segregateBy !== "") {
+  //     newTodo[segregateBy] = row;
   //   }
+  //   if (groupBy !== "") {
+  //     newTodo[groupBy] = group;
+  //   }
+  //   if (filterBy !== "") {
+  //     newTodo[filterBy] = filterValue;
+  //   }
+  //   todoRepo.createTodo("newTodo", newTodo).then(({ errors, filePath }) => {
+  //     if (errors) {
+  //       // TODO: display errors
+  //       return;
+  //     }
+  //     // open file in new tab for editing
+  //     followLink(filePath, context?.srcFilename ?? "", true, true);
+  //   });
+
+  //   // TODO: why is this not updating
   // };
 
-  const createTodo = (group: string, row: string) => {
-    // TODO: extend logic to take special cases like default column names into account
-    let newTodo = { type: "todo" } as Record<string, any>;
-    if (segregateBy !== "") {
-      newTodo[segregateBy] = row;
-    }
-    if (groupBy !== "") {
-      newTodo[groupBy] = group;
-    }
-    if (filterBy !== "") {
-      newTodo[filterBy] = filterValue;
-    }
-    todoRepo.createTodo("newTodo", newTodo).then(({ errors, filePath }) => {
-      if (errors) {
-        // TODO: display errors
-        return;
-      }
-      // open file in new tab for editing
-      followLink(filePath, context?.srcFilename ?? "", true, true);
-    });
-
-    // TODO: why is this not updating
-  };
-
   const mouseEnter = (e: MouseEvent, linkText: string) => {
+    // TODO: add exception handling
     window.app.workspace.trigger("hover-link", { e, linkText, source: "" });
   };
 
-  afterUpdate(() => {
-    window.app.workspace.trigger("layout-change");
-    // console.warn('MANUAL UPDATE');
-  });
+  // afterUpdate(() => {
+  //   window.app.workspace.trigger("layout-change");
+  //   // console.warn('MANUAL UPDATE');
+  // });
 </script>
 
 <div
@@ -180,17 +123,15 @@
     {/each}
   </BoardRow>
   <!-- <pre>{JSON.stringify([...todos.entries()])}</pre> -->
-  {#key todoMap}
-    {#each todoLists.entries() as [blockName, groups]}
-      <TodoRow
-        sortBy={""}
-        title={blockName}
-        groupNames={groupFilterOrderList}
-        {groups}
-        addTodo={createTodo}
-      ></TodoRow>
-    {/each}
-  {/key}
+  {#each todoLists.entries() as [blockName, groups]}
+    <TodoRow
+      sortBy={""}
+      title={blockName}
+      groupNames={groupFilterOrderList}
+      {groups}
+      addTodo={() => {}}
+    ></TodoRow>
+  {/each}
 
   {#if clickedTodo}
     <TodoDetail todo={clickedTodo}></TodoDetail>
@@ -201,9 +142,12 @@
 <style global lang="postcss">
   /* NOTE: tailwind must be included once per web-component in a GLOBAL script tag of type postcss
   */
+  @import "tailwindcss";
+  @config "../../tailwind.config.js";
+/*   
   @tailwind base;
   @tailwind components;
-  @tailwind utilities;
+  @tailwind utilities; */
 
   .markdown-preview-view {
     overscroll-behavior-x: contain;

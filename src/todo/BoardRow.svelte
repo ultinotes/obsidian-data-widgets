@@ -1,8 +1,9 @@
 <script lang="ts">
+  let { children } = $props();
 </script>
 
 <div class="todo-row flex">
-  <slot />
+  {@render children?.()}
 </div>
 
 <style>

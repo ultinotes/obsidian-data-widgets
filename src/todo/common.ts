@@ -1,6 +1,5 @@
-import type { Todo } from "../../../common/entities/todo";
+import type { Todo } from "../core/entities/todo";
 
-export * from "../../../common/entities/todo";
-export * from "../../../common/types";
-export * from "../../../common/utils";
-export * from "../../../common/store/componentStore";
+export * from "../core/entities/todo";
+export * from "../core/types";
+export * from "../core/utils";
