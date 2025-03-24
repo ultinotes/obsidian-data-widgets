@@ -15,7 +15,7 @@
     // followLink(todo.path, context?.srcFilename ?? "", true, true);
   }}
 >
-  <Frame classNames="block w-full" title={todo.id}>
+  <Frame classNames="block w-full" title="">
     {todo.title}
     {todo.dueDate}
   </Frame>

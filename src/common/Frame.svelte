@@ -11,10 +11,12 @@
   class={`frame border border-solid border-shade-400 border-1 relative ${classNames}`}
   style=""
 >
+  {#if title}
   <FrameTopBar classNames="bg-shade-400">
     {title}
     <slot name="title"></slot>
   </FrameTopBar>
+  {/if}
   <div class="p-1">
     <slot />
   </div>

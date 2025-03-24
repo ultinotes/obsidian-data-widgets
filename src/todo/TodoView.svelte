@@ -9,20 +9,16 @@
   import BoardColumn from "./BoardColumn.svelte";
   import { binEntriesBy } from "./binSorter";
 
-  // export let groupBy: string = "status"; // x-axis, second dimension
-  // // order groups by listing their names: 'OPEN CLOSED'
-  // // groups not named are omitted
-  // export let groupFilterOrder: string = "";
-  // export let segregateBy: string = "group"; // y-axis, first dimensions
-  // // export let filterBy: string = "";
-  // // export let filterValue: string = "";
-  // export let todos: Todo[] = [];
-
   let {
     groupBy = "status",
     groupFilterOrder = "",
     segregateBy = "group",
     todos = [],
+  }: {
+    groupBy: string;
+    groupFilterOrder: string;
+    segregateBy: string;
+    todos: Todo[];
   } = $props();
 
   // TODO: add common error and log channels
@@ -113,7 +109,7 @@
 
 <div
   bind:this={rootElement}
-  class="min-w-full py-4 flex flex-col overflow-x-auto snap-x snap-mandatory"
+  class="dark min-w-full py-4 flex flex-col overflow-x-auto snap-x snap-mandatory"
 >
   <BoardRow>
     {#each groupFilterOrderList as groupName}
@@ -140,16 +136,17 @@
 </div>
 
 <style global lang="postcss">
-  /* NOTE: tailwind must be included once per web-component in a GLOBAL script tag of type postcss
-  */
-  @import "tailwindcss";
-  @config "../../tailwind.config.js";
-/*   
-  @tailwind base;
-  @tailwind components;
-  @tailwind utilities; */
-
   .markdown-preview-view {
     overscroll-behavior-x: contain;
+  }
+
+  /* resets */
+  button {
+    @apply bg-transparent border-none appearance-none;
+  }
+
+  button:not(.clickable-icon) {
+    background-color: transparent;
+    box-shadow: none;
   }
 </style>

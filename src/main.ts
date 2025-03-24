@@ -1,4 +1,4 @@
-// import './app.css';
+import './app.css';
 import type { Todo } from "./todo/common";
 import TodoList from "./todo/TodoView.svelte";
 import BoardRow from "./todo/BoardRow.svelte";
