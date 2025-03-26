@@ -19,6 +19,8 @@
     const groupTodos = groups.get(name) ?? ([] as Todo[]);
     return [name, groupTodos] as [string, Todo[]];
   });
+
+  // TODO: make width configurable
 </script>
 
 <h2 class="sticky py-2 left-0 z-10 w-full text-lg font-bold opacity-60">

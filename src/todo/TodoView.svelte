@@ -72,39 +72,12 @@
         : [unknownGroupName, ...groupFilterOrder.split(" ")];
   });
 
-  // const createTodo = (group: string, row: string) => {
-  //   // TODO: extend logic to take special cases like default column names into account
-  //   let newTodo = { type: "todo" } as Record<string, any>;
-  //   if (segregateBy !== "") {
-  //     newTodo[segregateBy] = row;
-  //   }
-  //   if (groupBy !== "") {
-  //     newTodo[groupBy] = group;
-  //   }
-  //   if (filterBy !== "") {
-  //     newTodo[filterBy] = filterValue;
-  //   }
-  //   todoRepo.createTodo("newTodo", newTodo).then(({ errors, filePath }) => {
-  //     if (errors) {
-  //       // TODO: display errors
-  //       return;
-  //     }
-  //     // open file in new tab for editing
-  //     followLink(filePath, context?.srcFilename ?? "", true, true);
-  //   });
-
-  //   // TODO: why is this not updating
-  // };
 
   const mouseEnter = (e: MouseEvent, linkText: string) => {
     // TODO: add exception handling
     window.app.workspace.trigger("hover-link", { e, linkText, source: "" });
   };
 
-  // afterUpdate(() => {
-  //   window.app.workspace.trigger("layout-change");
-  //   // console.warn('MANUAL UPDATE');
-  // });
 </script>
 
 <div
@@ -128,11 +101,6 @@
       addTodo={() => {}}
     ></TodoRow>
   {/each}
-
-  {#if clickedTodo}
-    <TodoDetail todo={clickedTodo}></TodoDetail>
-  {/if}
-  <!-- File Content: {fileContent} -->
 </div>
 
 <style global lang="postcss">
@@ -142,7 +110,8 @@
 
   /* resets */
   button {
-    @apply bg-transparent border-none appearance-none;
+    @apply bg-transparent border-none appearance-none block h-full;
+    font-size: var(--font-ui-medium);
   }
 
   button:not(.clickable-icon) {

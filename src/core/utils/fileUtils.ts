@@ -11,7 +11,7 @@ export const filterFolders = (abstractFiles: TAbstractFile[]): TFolder[] => {
 };
 
 export const getMarkdownLinkToFile = (file: TFile) => {
-  return window.ultinotes.app.fileManager.generateMarkdownLink(
+  return window.app.fileManager.generateMarkdownLink(
     file,
     "",
     "",
@@ -21,5 +21,5 @@ export const getMarkdownLinkToFile = (file: TFile) => {
 
 export function getLinkToFile(file: TFile) {
   // REVIEW: what about source path
-  return window.ultinotes.app.metadataCache.fileToLinktext(file, "");
+  return window.app.metadataCache.fileToLinktext(file, "");
 }

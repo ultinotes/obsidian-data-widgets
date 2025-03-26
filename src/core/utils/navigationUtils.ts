@@ -7,7 +7,7 @@ export async function followLink(
   newLeaf: boolean,
   focusNewLeaf: boolean
 ) {
-  return await window.ultinotes.app.workspace.openLinkText(
+  return await window.app.workspace.openLinkText(
     target,
     source,
     newLeaf,
