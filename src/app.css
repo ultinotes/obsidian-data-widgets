@@ -1,6 +1,8 @@
 /**
  * NOTE: tailwind must be included once per web-component in a GLOBAL script tag of type postcss
  * NOTE: use this file only for imports
+ * NOTE: tailwind import is marked as important to make sure default styling 
+ * doesn't conflict with custom styling.
  */
-@import "tailwindcss";
+@import "tailwindcss" important;
 @config "../tailwind.config.js";

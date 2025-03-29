@@ -8,6 +8,8 @@
   export let todo: Todo;
   export let onClick: (fileHandle: TFile) => any = () => {};
 
+  // TODO: create common button element with style overrides to counter the styling of Obsidian --> see the !important classes below
+
   // NOTE: date to string conversion should be done outside this widget
   // let dueDate: string;
   // $: if (todo && todo.dueDate) {
@@ -35,7 +37,7 @@
       await followLink(todo.path, todo.path ?? "", true, true);
       // clickedTodo = todo;
     }}
-    class="py-8 text-3xl whitespace-normal block text-left"
+    class="py-2 whitespace-normal block text-left hover:text-white hover:font-bold cursor-pointer"
   >
     <div class="block w-full">
       {todo.title}

@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
 
   import TodoDetail from "./TodoDetail.svelte";
-  import { type Todo } from "./common";
+  import { type Todo, type TodoViewOptions } from "./common";
   import * as _ from "lodash";
   import TodoRow from "./TodoRow.svelte";
   import BoardRow from "./BoardRow.svelte";
@@ -11,13 +11,11 @@
 
   let {
     groupBy = "status",
-    groupFilterOrder = "",
+    groupFilterOrder = "OPEN PROGRESS DOING DONE REJECTED",
     segregateBy = "group",
+    unknownGroupName = "NO GROUP",
     todos = [],
-  }: {
-    groupBy: string;
-    groupFilterOrder: string;
-    segregateBy: string;
+  }: TodoViewOptions & {
     todos: Todo[];
   } = $props();
 
@@ -55,8 +53,6 @@
     // TODO: add option to specify folder for new todos
     // sort into bins
 
-    const unknownGroupName = "NO GROUP";
-
     const binnedTodos = binEntriesBy(todos, {
       segregateBy,
       groupBy,
@@ -66,18 +62,21 @@
 
     todoLists = binnedTodos.map;
 
+    let columnNames = groupFilterOrder.split(" ");
+    // avoid duplicate columns, check if unknown group name is already in column names
+    if (!columnNames.contains(unknownGroupName)) {
+      columnNames = [unknownGroupName, ...columnNames];
+    }
     groupFilterOrderList =
       groupFilterOrder === ""
         ? binnedTodos.groups.values().toArray()
-        : [unknownGroupName, ...groupFilterOrder.split(" ")];
+        : columnNames;
   });
-
 
   const mouseEnter = (e: MouseEvent, linkText: string) => {
     // TODO: add exception handling
     window.app.workspace.trigger("hover-link", { e, linkText, source: "" });
   };
-
 </script>
 
 <div
@@ -112,7 +111,14 @@
   button {
     @apply bg-transparent border-none appearance-none block h-full;
     font-size: var(--font-ui-medium);
+    white-space: normal;
   }
+
+  /* button:hover {
+    cursor: pointer;
+    color: #fff;
+    font-weight: bold;
+  } */
 
   button:not(.clickable-icon) {
     background-color: transparent;

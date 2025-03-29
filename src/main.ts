@@ -1,17 +1,21 @@
-import './app.css';
-import type { Todo } from "./todo/common";
+import "./app.css";
+import type { Todo, TodoViewOptions } from "./todo/common";
 import TodoList from "./todo/TodoView.svelte";
 import BoardRow from "./todo/BoardRow.svelte";
 import { mount } from "svelte";
 
 declare global {
   interface Window {
-    createBoard: (container: HTMLElement, data: Todo[]) => void;
+    createBoard: (
+      container: HTMLElement,
+      data: Todo[],
+      options?: TodoViewOptions
+    ) => void;
     createDiv: (options: { cls: string; parent: HTMLElement }) => HTMLElement; // NOTE: provided by obsidian
   }
 }
 
-window.createBoard = (container, data) => {
+window.createBoard = (container, data, options) => {
   console.warn("CREATING BOARD");
   console.warn(container);
   console.warn(data);
@@ -24,9 +28,8 @@ window.createBoard = (container, data) => {
   mount(TodoList, {
     target: boardContainer,
     props: {
+      ...(options || {}),
       todos: data,
-      groupBy: "status",
-      segregateBy: "group",
     },
   });
 };
