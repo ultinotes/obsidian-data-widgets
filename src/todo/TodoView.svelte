@@ -2,7 +2,12 @@
   import { onMount } from "svelte";
 
   import TodoDetail from "./TodoDetail.svelte";
-  import { type Todo, type TodoViewOptions } from "./common";
+  import {
+    createFileWithFrontmatter,
+    followLink,
+    type Todo,
+    type TodoViewOptions,
+  } from "./common";
   import * as _ from "lodash";
   import TodoRow from "./TodoRow.svelte";
   import BoardRow from "./BoardRow.svelte";
@@ -15,6 +20,8 @@
     segregateBy = "group",
     unknownGroupName = "NO GROUP",
     todos = [],
+    creationPath = "/newTodos",
+    frontmatterTemplate = {},
   }: TodoViewOptions & {
     todos: Todo[];
   } = $props();
@@ -97,7 +104,15 @@
       title={blockName}
       groupNames={groupFilterOrderList}
       {groups}
-      addTodo={() => {}}
+      addTodo={async (name, lane, row) => {
+        const newFileName = creationPath + "/" + name + ".md";
+        await createFileWithFrontmatter(newFileName, "...", {
+          [groupBy]: lane,
+          [segregateBy]: row,
+          ...frontmatterTemplate,
+        });
+        await followLink(newFileName, "/", true, true);
+      }}
     ></TodoRow>
   {/each}
 </div>

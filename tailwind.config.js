@@ -2,16 +2,12 @@
 import forms from "@tailwindcss/forms";
 import typography from "@tailwindcss/typography";
 
+// TODO: remove colors and just use the default ones
 export default {
   content: ["./src/**/*.{html,js,ts,svelte}"],
   theme: {
     extend: {
       colors: {
-        shade: {
-          300: "#333",
-          400: "#444",
-          800: "#888",
-        },
         primary: "#1D4ED8",
         secondary: "#FDE047",
         info: "#3B82F6",

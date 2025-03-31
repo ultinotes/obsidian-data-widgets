@@ -10,10 +10,11 @@
   export let groupNames: string[] = [];
   export let groups: Map<string, Todo[]>;
 
-  export let addTodo: (groupName: string, row: string) => any = (
-    name,
-    row,
-  ) => {};
+  export let addTodo: (
+    fileName: string,
+    groupName: string,
+    row: string,
+  ) => any = (name, group, row) => {};
 
   let sortedGroups = groupNames.map((name) => {
     const groupTodos = groups.get(name) ?? ([] as Todo[]);
@@ -28,10 +29,7 @@
 </h2>
 <BoardRow>
   {#each sortedGroups as [name, todos]}
-    <TodoGroup
-      groupName={name}
-      {todos}
-      addTodo={(groupName) => addTodo(groupName, title)}
+    <TodoGroup {todos} addTodo={(fileName) => addTodo(fileName, name, title)}
     ></TodoGroup>
   {/each}
 </BoardRow>

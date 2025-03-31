@@ -8,11 +8,11 @@
 </script>
 
 <div
-  class={`frame border border-solid border-shade-400 border-1 relative ${classNames}`}
+  class={`frame border border-solid border-gray-400 border-1 relative ${classNames}`}
   style=""
 >
   {#if title}
-  <FrameTopBar classNames="bg-shade-400">
+  <FrameTopBar classNames="bg-gray-400">
     {title}
     <slot name="title"></slot>
   </FrameTopBar>

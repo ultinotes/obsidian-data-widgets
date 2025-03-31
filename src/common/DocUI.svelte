@@ -5,7 +5,7 @@
   // TODO: add view for changed component settings and manual changes that need to be made
 </script>
 
-<FrameTopBar classNames="bg-shade-300">
+<FrameTopBar classNames="bg-gray-300">
   <div class="flex justify-end space-x-2">
     <button class="text-red-500 bg-black p-1">
       &#9888; <!-- Unicode icon for error -->
