@@ -16,7 +16,7 @@
 
   let {
     groupBy = "status",
-    groupFilterOrder = "OPEN PROGRESS DOING DONE REJECTED",
+    groupFilterOrder = "",
     segregateBy = "group",
     unknownGroupName = "NO GROUP",
     todos = [],
