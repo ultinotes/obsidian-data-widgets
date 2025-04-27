@@ -33,17 +33,18 @@
   <button
     on:click={async () => {
       // follow link
-      console.log(todo.path);
       await followLink(todo.path, todo.path ?? "", true, true);
-      // clickedTodo = todo;
     }}
-    class="py-2 whitespace-normal block text-left hover:text-white hover:font-bold cursor-pointer"
+    class="py-2 whitespace-normal block text-left hover:text-white group cursor-pointer w-full"
   >
-    <div class="block w-full">
+    <div class="block w-full group-hover:font-bold">
       {todo.title}
     </div>
     <div class="block w-1/2 text-sm text-gray-500">
       {todo.dueDate}
+    </div>
+    <div class="block w-full text-sm text-gray-500">
+      {todo.description}
     </div>
   </button>
 </Frame>

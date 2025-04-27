@@ -25,34 +25,34 @@ const binOptionDefaults = {
 export function binEntriesBy(
   todos: Todo[],
   {
-    segregateBy,
+    splitRowsBy,
     groupBy,
     defaultGroupName,
     defaultRowName,
   }: {
-    segregateBy: string;
+    splitRowsBy: string;
     groupBy: string;
     defaultGroupName?: string;
     defaultRowName?: string;
   }
 ) {
   const rowGroupMap = new Map();
-  const unknownGroupName =
+  const unknownColumnName =
     defaultGroupName ?? binOptionDefaults.defaultGroupName;
   const unknownRowName = defaultRowName ?? binOptionDefaults.defaultRowName;
-  const segregateByTrimmed = segregateBy.trim();
+  const splitRowsByTrimmed = splitRowsBy.trim();
   const groupByTrimmed = groupBy.trim();
 
   const groups: Set<string> = new Set<string>();
   todos.forEach((todo) => {
     const segregationValue =
-      segregateByTrimmed === ""
+      splitRowsByTrimmed === ""
         ? ""
-        : (todo as any)[segregateByTrimmed] ?? unknownRowName;
+        : (todo as any)[splitRowsByTrimmed] ?? unknownRowName;
     const groupValue =
       groupByTrimmed === ""
         ? ""
-        : (todo as any)[groupByTrimmed] ?? unknownGroupName;
+        : (todo as any)[groupByTrimmed] ?? unknownColumnName;
     groups.add(groupValue);
 
     const segregationEntry =

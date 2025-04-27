@@ -16,9 +16,9 @@
 
   let {
     groupBy = "status",
-    groupFilterOrder = "",
-    segregateBy = "group",
-    unknownGroupName = "NO GROUP",
+    columnNames = "",
+    splitRowsBy = "group",
+    unknownColumnName = "NO GROUP",
     todos = [],
     creationPath = "/newTodos",
     frontmatterTemplate = {},
@@ -31,7 +31,7 @@
   // TODO: add app bar to display context information for debugging
   // TODO: add to context flags for debugging
 
-  let groupFilterOrderList: string[] = $state([]);
+  let columnNamesList: string[] = $state([]);
 
   // list todos by two dimensions, segregation | group | key
   let todoLists: Map<string, Map<string, Todo[]>> = $state(new Map());
@@ -57,27 +57,26 @@
 
     // TODO: give option to add a new todo when board is empty
     // TODO: hide default group if empty
-    // TODO: add option to specify folder for new todos
     // sort into bins
 
     const binnedTodos = binEntriesBy(todos, {
-      segregateBy,
+      splitRowsBy,
       groupBy,
-      defaultGroupName: unknownGroupName,
+      defaultGroupName: unknownColumnName,
       defaultRowName: "NO ROW",
     });
 
     todoLists = binnedTodos.map;
 
-    let columnNames = groupFilterOrder.split(" ");
+    let splitColumnNames = columnNames.split(" ");
     // avoid duplicate columns, check if unknown group name is already in column names
-    if (!columnNames.contains(unknownGroupName)) {
-      columnNames = [unknownGroupName, ...columnNames];
+    if (!splitColumnNames.contains(unknownColumnName)) {
+      splitColumnNames = [unknownColumnName, ...splitColumnNames];
     }
-    groupFilterOrderList =
-      groupFilterOrder === ""
+    columnNamesList =
+      columnNames === ""
         ? binnedTodos.groups.values().toArray()
-        : columnNames;
+        : splitColumnNames;
   });
 
   const mouseEnter = (e: MouseEvent, linkText: string) => {
@@ -90,25 +89,56 @@
   bind:this={rootElement}
   class="dark min-w-full py-4 flex flex-col overflow-x-auto snap-x snap-mandatory"
 >
+  <div class="block w-full text-sm text-gray-500">
+    {todos.length}
+    {todos.length === 1 ? "card" : "cards"}
+  </div>
   <BoardRow>
-    {#each groupFilterOrderList as groupName}
+    {#each columnNamesList as groupName}
       <BoardColumn>
         <h3 class="w-full min-h-[1em] block text-lg font-bold">{groupName}</h3>
       </BoardColumn>
     {/each}
   </BoardRow>
-  <!-- <pre>{JSON.stringify([...todos.entries()])}</pre> -->
+
+  <!-- IF NO GROUPS EXIST -->
+  <!-- NOTE: columnNamesList length condition is ABSOLUTELY ESSENTIAL in order to make the block react to changes in it. Somehow it doesn't react otherwise -->
+  {#if todoLists.size === 0 && columnNamesList.length !== 0}
+    <TodoRow
+      sortBy={""}
+      title={"Add your first task"}
+      groupNames={columnNamesList}
+      groups={(() => {
+        const emptySet = new Map<string, Todo[]>();
+        columnNamesList.forEach((item) => {
+          emptySet.set(item, []);
+        });
+        return emptySet;
+      })()}
+      addTodo={async (name, lane, row) => {
+        const newFileName = creationPath + "/" + name + ".md";
+        await createFileWithFrontmatter(newFileName, "...", {
+          [groupBy]: lane,
+          // row is "Add your first task" --> set to something else
+          [splitRowsBy]: "First topic",
+          ...frontmatterTemplate,
+        });
+        await followLink(newFileName, "/", true, true);
+      }}
+    ></TodoRow>
+  {/if}
+  <!-- IF GROUPS EXIST -->
   {#each todoLists.entries() as [blockName, groups]}
     <TodoRow
       sortBy={""}
       title={blockName}
-      groupNames={groupFilterOrderList}
+      groupNames={columnNamesList}
       {groups}
       addTodo={async (name, lane, row) => {
         const newFileName = creationPath + "/" + name + ".md";
         await createFileWithFrontmatter(newFileName, "...", {
           [groupBy]: lane,
-          [segregateBy]: row,
+          [splitRowsBy]: row,
           ...frontmatterTemplate,
         });
         await followLink(newFileName, "/", true, true);

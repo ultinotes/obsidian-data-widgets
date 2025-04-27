@@ -20,7 +20,6 @@
     const groupTodos = groups.get(name) ?? ([] as Todo[]);
     return [name, groupTodos] as [string, Todo[]];
   });
-
   // TODO: make width configurable
 </script>
 
