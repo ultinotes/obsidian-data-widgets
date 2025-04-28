@@ -56,7 +56,7 @@ window.createGraphic = (container, src, data, options) => {
     props: {
       src,
       ...(options || {}),
-      todos: data ?? [],
+      data: data ?? [],
     },
   });
 };
