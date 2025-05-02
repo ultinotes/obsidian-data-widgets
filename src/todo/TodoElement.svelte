@@ -33,6 +33,7 @@
   <button
     on:click={async () => {
       // follow link
+      // TODO: add correct src path
       await followLink(todo.path, todo.path ?? "", true, true);
     }}
     class="py-2 whitespace-normal block text-left hover:text-white group cursor-pointer w-full"

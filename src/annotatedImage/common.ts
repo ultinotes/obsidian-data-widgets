@@ -1,5 +1,5 @@
-
-
+export * from "../core/types";
+export * from "../core/utils";
 
 export type ImageAnnotation = {
   path: string;
@@ -10,9 +10,8 @@ export type ImageAnnotation = {
   positionY: string;
 };
 
-
 export type AnnotatedImageOptions = {
   cssFilter: string;
   caption: string;
-  annotationStyle: 'hotspot' | 'line';
+  annotationStyle: "hotspot" | "line";
 };
