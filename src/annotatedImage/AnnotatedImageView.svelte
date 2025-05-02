@@ -131,12 +131,31 @@
   </div>
 </main>
 
-<style>
+<style global lang="postcss">
   .highlight {
     font-size: 30px;
     transform: translate(-50%, -50%);
     /* NOTE: Because of the translation the center now sits where the top-left was */
     transform-origin: top left;
     line-height: 1;
+  }
+
+  /* TODO: dedup with Todo View */
+  /* NOTE: global postcss can contain tailwind apply rules */
+  button {
+    @apply bg-transparent border-none appearance-none block h-full;
+    font-size: var(--font-ui-medium);
+    white-space: normal;
+  }
+
+  /* button:hover {
+    cursor: pointer;
+    color: #fff;
+    font-weight: bold;
+  } */
+
+  button:not(.clickable-icon) {
+    background-color: transparent;
+    box-shadow: none;
   }
 </style>
