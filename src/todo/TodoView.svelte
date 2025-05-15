@@ -12,7 +12,7 @@
   import TodoRow from "./TodoRow.svelte";
   import BoardRow from "./BoardRow.svelte";
   import BoardColumn from "./BoardColumn.svelte";
-  import { binEntriesBy } from "./binSorter";
+  import { binEntriesBy, getColumnNames } from "./processor";
 
   let {
     groupBy = "status",
@@ -27,8 +27,6 @@
   } = $props();
 
   // TODO: add common error and log channels
-  // --> callbacks to add error to doc context
-  // TODO: add app bar to display context information for debugging
   // TODO: add to context flags for debugging
 
   let columnNamesList: string[] = $state([]);
@@ -55,7 +53,6 @@
       },
     );
 
-    // TODO: give option to add a new todo when board is empty
     // TODO: hide default group if empty
     // sort into bins
 
@@ -67,18 +64,14 @@
     });
 
     todoLists = binnedTodos.map;
-
-    let splitColumnNames = columnNames.split(" ");
-    // avoid duplicate columns, check if unknown group name is already in column names
-    if (!splitColumnNames.contains(unknownColumnName)) {
-      splitColumnNames = [unknownColumnName, ...splitColumnNames];
-    }
-    columnNamesList =
-      columnNames === ""
-        ? binnedTodos.groups.values().toArray()
-        : splitColumnNames;
+    columnNamesList = getColumnNames(
+      columnNames,
+      unknownColumnName,
+      binnedTodos,
+    );
   });
 
+  // TODO: add tests
   const mouseEnter = (e: MouseEvent, linkText: string) => {
     // TODO: add exception handling
     window.app.workspace.trigger("hover-link", { e, linkText, source: "" });

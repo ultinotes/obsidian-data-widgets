@@ -22,6 +22,11 @@ const binOptionDefaults = {
   defaultRowName: "",
 };
 
+export type BinResult = {
+  map: Map<string, Map<string, Todo[]>>;
+  groups: Set<string>;
+};
+
 export function binEntriesBy(
   todos: Todo[],
   {
@@ -35,7 +40,7 @@ export function binEntriesBy(
     defaultGroupName?: string;
     defaultRowName?: string;
   }
-) {
+): BinResult {
   const rowGroupMap = new Map();
   const unknownColumnName =
     defaultGroupName ?? binOptionDefaults.defaultGroupName;
@@ -67,4 +72,19 @@ export function binEntriesBy(
     map: rowGroupMap,
     groups: groups,
   };
+}
+
+export function getColumnNames(
+  columnNames: string,
+  unknownColumnName: string,
+  binnedTodos: BinResult
+) {
+  let splitColumnNames = columnNames.split(" ");
+  // avoid duplicate columns, check if unknown group name is already in column names
+  if (!splitColumnNames.contains(unknownColumnName)) {
+    splitColumnNames = [unknownColumnName, ...splitColumnNames];
+  }
+  return columnNames === ""
+    ? binnedTodos.groups.values().toArray()
+    : splitColumnNames;
 }
