@@ -53,7 +53,7 @@
       },
     );
 
-    // TODO: hide default group if empty
+    // TODO: handle exceptions
     // sort into bins
 
     const binnedTodos = binEntriesBy(todos, {
@@ -110,6 +110,7 @@
       })()}
       addTodo={async (name, lane, row) => {
         const newFileName = creationPath + "/" + name + ".md";
+        // TODO: handle exceptions
         await createFileWithFrontmatter(newFileName, "...", {
           [groupBy]: lane,
           // row is "Add your first task" --> set to something else
@@ -129,6 +130,7 @@
       {groups}
       addTodo={async (name, lane, row) => {
         const newFileName = creationPath + "/" + name + ".md";
+        // TODO: handle exceptions
         await createFileWithFrontmatter(newFileName, "...", {
           [groupBy]: lane,
           [splitRowsBy]: row,
