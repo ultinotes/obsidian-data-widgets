@@ -77,14 +77,13 @@ export function binEntriesBy(
 export function getColumnNames(
   columnNames: string,
   unknownColumnName: string,
-  binnedTodos: BinResult
+  todoGroups: string[],
+  delimiter: string = " "
 ) {
-  let splitColumnNames = columnNames.split(" ");
+  let splitColumnNames = columnNames.split(delimiter);
   // avoid duplicate columns, check if unknown group name is already in column names
-  if (!splitColumnNames.contains(unknownColumnName)) {
+  if (!splitColumnNames.includes(unknownColumnName)) {
     splitColumnNames = [unknownColumnName, ...splitColumnNames];
   }
-  return columnNames === ""
-    ? binnedTodos.groups.values().toArray()
-    : splitColumnNames;
+  return columnNames === "" ? todoGroups : splitColumnNames;
 }

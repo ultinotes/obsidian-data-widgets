@@ -6,6 +6,7 @@ export * from "../core/utils";
 export type TodoViewOptions = {
   groupBy: string;
   columnNames: string;
+  columnNamesDelimiter: string;
   splitRowsBy: string;
   unknownColumnName: string;
   creationPath: string;
@@ -19,8 +20,7 @@ export type Todo = {
   title: string;
   description: string;
   dueDate: string;
-  topic: string;
-  status: string;
+  [key: string]: string;
 };
 
 export type GroupOptions = "dueDate" | "status" | "topic" | "";
@@ -30,3 +30,6 @@ export type FilterOptions = keyof Todo | "";
 // --> numbers on axis
 // --> string enums in columns
 // --> dates in calendar --> what about pagination? --> group by day, segregate by hour
+// TODO: enable sorting cells by predefined keys ("a-z", "z-a", "largest", "smalles") and custom functions
+// TODO: add flag to enable showing additional columns not mentioned in column names
+// TODO: add custom coloring

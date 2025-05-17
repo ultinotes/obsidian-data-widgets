@@ -17,6 +17,7 @@
   let {
     groupBy = "status",
     columnNames = "",
+    columnNamesDelimiter = ";",
     splitRowsBy = "group",
     unknownColumnName = "NO GROUP",
     todos = [],
@@ -67,7 +68,7 @@
     columnNamesList = getColumnNames(
       columnNames,
       unknownColumnName,
-      binnedTodos,
+      binnedTodos.groups.values().toArray(),
     );
   });
 
