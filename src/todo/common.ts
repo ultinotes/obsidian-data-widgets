@@ -32,4 +32,5 @@ export type FilterOptions = keyof Todo | "";
 // --> dates in calendar --> what about pagination? --> group by day, segregate by hour
 // TODO: enable sorting cells by predefined keys ("a-z", "z-a", "largest", "smalles") and custom functions
 // TODO: add flag to enable showing additional columns not mentioned in column names
-// TODO: add custom coloring
+// TODO: add flag to hide empty groups
+// TODO: add custom coloring and importance flag

@@ -69,6 +69,7 @@
       columnNames,
       unknownColumnName,
       binnedTodos.groups.values().toArray(),
+      columnNamesDelimiter,
     );
   });
 
