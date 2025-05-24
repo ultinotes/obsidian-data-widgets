@@ -183,19 +183,19 @@ describe("BIN ENTRIES ", () => {
     expect(firstRowFirstGroupName).toBe("A");
   });
 
-  it("group property missing & defaults missing -> sort into special group", () => {});
+  // it("group property missing & defaults missing -> sort into special group", () => {});
 
-  it("row property missing   & defaults missing -> sort into special row", () => {});
+  // it("row property missing   & defaults missing -> sort into special row", () => {});
 
-  it("group names have different cases -> normalize case", () => {});
+  // it("group names have different cases -> normalize case", () => {});
 
-  it("row names have different cases   -> normalize case", () => {});
+  // it("row names have different cases   -> normalize case", () => {});
 
-  it("group names have whitespace -> normalize case", () => {});
+  // it("group names have whitespace -> normalize case", () => {});
 
-  it("row names have whitespace   -> normalize case", () => {});
+  // it("row names have whitespace   -> normalize case", () => {});
 
-  it("invalid inputs -> return exception", () => {});
+  // it("invalid inputs -> return exception", () => {});
 });
 
 describe("COLUMN NAMES", () => {
@@ -222,5 +222,5 @@ describe("COLUMN NAMES", () => {
     // REVIEW: make sure other columns exist, otherwise it will trigger "no todos given"
   });
 
-  it("invalid inputs -> return exception", () => {});
+  // it("invalid inputs -> return exception", () => {});
 });

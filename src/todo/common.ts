@@ -33,4 +33,5 @@ export type FilterOptions = keyof Todo | "";
 // TODO: enable sorting cells by predefined keys ("a-z", "z-a", "largest", "smalles") and custom functions
 // TODO: add flag to enable showing additional columns not mentioned in column names
 // TODO: add flag to hide empty groups
+// TODO: add flag to sort residual tasks into default group
 // TODO: add custom coloring and importance flag

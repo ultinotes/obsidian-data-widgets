@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { entries } from "lodash";
   import type { GroupOptions, Todo } from "./common";
   import TodoGroup from "./TodoGroup.svelte";
   import BoardRow from "./BoardRow.svelte";

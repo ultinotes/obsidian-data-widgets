@@ -1,23 +1,58 @@
 // import postcss from "./postcss.config.mjs";
-import { defineConfig } from "vite";
+import { defineConfig, UserConfig } from "vite";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
+import path from "path";
+import builtins from "builtin-modules";
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [svelte()],
-  build: {
-    // target: 'es2015',
-    // REVIEW: assets inside plugin folder are not automatically synced
-    // --> place component bundles in vault
-    outDir: "../../../Extras/components",
-    rollupOptions: {
-      output: {
-        format: "iife",
-        entryFileNames: "bundle.js",
+// NOTE: vite config for obsidian: https://github.com/unxok/obsidian-vite/blob/main/vite.config.ts
+export default defineConfig(async ({ mode }) => {
+  const { resolve } = path;
+  const prod = mode === "production";
+
+  return {
+    plugins: [svelte()],
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "./src"),
       },
     },
-  },
-  // css: {
-  //   postcss: postcss,
-  // },
+    build: {
+      lib: {
+        entry: resolve(__dirname, "src/main.ts"),
+        name: "main",
+        fileName: () => "main.js",
+        formats: ["cjs"],
+      },
+      minify: prod,
+      sourcemap: prod ? false : "inline",
+      cssCodeSplit: false,
+      emptyOutDir: false,
+      outDir: "",
+      rollupOptions: {
+        input: {
+          main: resolve(__dirname, "src/main.ts"),
+        },
+        output: {
+          entryFileNames: "main.js",
+          assetFileNames: "styles.css",
+        },
+        external: [
+          "obsidian",
+          "electron",
+          "@codemirror/autocomplete",
+          "@codemirror/collab",
+          "@codemirror/commands",
+          "@codemirror/language",
+          "@codemirror/lint",
+          "@codemirror/search",
+          "@codemirror/state",
+          "@codemirror/view",
+          "@lezer/common",
+          "@lezer/highlight",
+          "@lezer/lr",
+          ...builtins,
+        ],
+      },
+    },
+  } as UserConfig;
 });

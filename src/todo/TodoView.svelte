@@ -8,7 +8,6 @@
     type Todo,
     type TodoViewOptions,
   } from "./common";
-  import * as _ from "lodash";
   import TodoRow from "./TodoRow.svelte";
   import BoardRow from "./BoardRow.svelte";
   import BoardColumn from "./BoardColumn.svelte";
