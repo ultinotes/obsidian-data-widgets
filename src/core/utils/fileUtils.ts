@@ -1,22 +1,18 @@
-import type { TAbstractFile, TFile, TFolder } from "obsidian";
+import { TAbstractFile, TFile, TFolder } from "obsidian";
 
-export const isFile = (af: TAbstractFile) => "stat" in af;
+export const isFile = (af: TAbstractFile) => af instanceof TFile;
+export const isFolder = (af: TAbstractFile) => af instanceof TFolder;
 
 export const filterFiles = (abstractFiles: TAbstractFile[]): TFile[] => {
-  return abstractFiles.filter(isFile).map((af) => af as TFile);
+  return abstractFiles.filter(isFile);
 };
 
 export const filterFolders = (abstractFiles: TAbstractFile[]): TFolder[] => {
-  return abstractFiles.filter((af) => !isFile(af)).map((af) => af as TFolder);
+  return abstractFiles.filter(isFolder);
 };
 
 export const getMarkdownLinkToFile = (file: TFile) => {
-  return window.app.fileManager.generateMarkdownLink(
-    file,
-    "",
-    "",
-    ""
-  );
+  return window.app.fileManager.generateMarkdownLink(file, "", "", "");
 };
 
 export function getLinkToFile(file: TFile) {

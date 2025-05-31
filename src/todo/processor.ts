@@ -8,7 +8,7 @@ export function filterEntries(
   const filterByTrimmed = filterBy.trim();
   return filterByTrimmed !== ""
     ? todos.filter((todo) => {
-        let itemValue = (todo as any)[filterByTrimmed];
+        let itemValue = todo[filterByTrimmed];
         if (itemValue === undefined) {
           itemValue = "";
         }
@@ -53,11 +53,11 @@ export function binEntriesBy(
     const segregationValue =
       splitRowsByTrimmed === ""
         ? ""
-        : (todo as any)[splitRowsByTrimmed] ?? unknownRowName;
+        : todo[splitRowsByTrimmed] ?? unknownRowName;
     const groupValue =
       groupByTrimmed === ""
         ? ""
-        : (todo as any)[groupByTrimmed] ?? unknownColumnName;
+        : todo[groupByTrimmed] ?? unknownColumnName;
     groups.add(groupValue);
 
     const segregationEntry =
