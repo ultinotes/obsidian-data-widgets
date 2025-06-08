@@ -99,7 +99,7 @@
         }}
         onclick={async () => {
           // TODO: add correct src path
-          await followLink(annotation.path, annotation.path ?? "", true, true);
+          await followLink(annotation.path, annotation.path, true, true);
         }}
       >
         ⛶

@@ -3,6 +3,9 @@ import { binEntriesBy, getColumnNames } from "./processor";
 import type { Todo } from "./common";
 
 const common = {
+  file: {
+    path: "",
+  },
   path: "",
   title: "",
   description: "",
@@ -86,6 +89,9 @@ describe("BIN ENTRIES ", () => {
     // expect(secondRowSecondGroupTodos).toBeUndefined();
     expect(secondRowSecondGroup).toBeUndefined();
   });
+
+  // TODO: write test for case insensitivity
+  // TODO: add test for proper string trimming
 
   it("group property missing -> sort into default group", () => {
     const common = {
@@ -213,6 +219,9 @@ describe("COLUMN NAMES", () => {
     const result = getColumnNames("A;B C", "unknown", ["B", "C", "D"], ";");
     expect(result).toEqual(["unknown", "A", "B C"]);
   });
+
+  // TODO: add test for case insensitivity
+  // TODO: add test for proper string trimming
 
   it("no todos given -> onboarding column", () => {
     // REVIEW: move logic for "First Task" column here

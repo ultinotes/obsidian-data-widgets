@@ -49,38 +49,11 @@ To create boards using Ultinotes, follow these steps:
 
    In this case we get the pages from a specific folder.
 
-2. **Provide Tasks in the Right Format**
-
-   Insert this into your dataview block:
-
-   ```js
-   const transformed = pages.map((p) => {
-     const link = dv.fileLink(p.file.path);
-     const path = p.file.path;
-     const filename = path.substring(
-       path.lastIndexOf("/") + 1,
-       path.lastIndexOf(".")
-     );
-
-     return {
-       path: path,
-       id: p.id,
-       title: filename,
-       description: p.description || "",
-       dueDate: "", // coming later
-       topic: p.topic?.trim()?.toUpperCase(),
-       status: p.status?.trim()?.toUpperCase(),
-     };
-   });
-   ```
-
-   Here we transform the pages into tasks by adding additional info like file links.
-
 3. **Write Your Board Script**  
    In the dataview code block, use the global `createBoard()` function to define your board. Here's an example:
 
    ```javascript
-   createBoard(this.container, transformed, {
+   createBoard(this.container, pages, {
      groupBy: "status",
      columnNames: "BACKLOG;OPEN;DOING;DONE;REJECTED",
      splitRowsBy: "topic",
@@ -118,32 +91,6 @@ To create an annotated image, follow these steps:
 
    In this case we get the pages from a specific folder.
 
-2. **Provide Tasks in the Right Format**
-
-   Insert this into your dataview block:
-
-   ```js
-   const transformed = pages.map((p) => {
-     const link = dv.fileLink(p.file.path);
-     const path = p.file.path;
-     const filename = path.substring(
-       path.lastIndexOf("/") + 1,
-       path.lastIndexOf(".")
-     );
-
-     return {
-       path: path,
-       id: p.id,
-       title: filename,
-       description: p.description || "",
-       positionX: p.x ?? 0,
-		   positionY: p.y ?? 0
-     };
-   });
-   ```
-
-   Here we transform the pages into annotations by adding additional info like file links and position from frontmatter
-
 3. **Load the Image and Create the Widget**  
    In the dataview code block, use the global `createGraphic()` function to define your board. Here's an example:
 
@@ -155,7 +102,7 @@ To create an annotated image, follow these steps:
    createGraphic(
     this.container, 
     absolutePath,
-    annotations,
+    pages,
     {
      cssFilter: "invert() opacity(0.4)" // example: this will invert the image and make it semi-transparent
     }
