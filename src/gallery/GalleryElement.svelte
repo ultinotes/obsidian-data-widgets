@@ -40,7 +40,7 @@
 <!-- TODO: dedup with Frame -->
 <!-- svelte-ignore event_directive_deprecated -->
 <button
-  class={`gallery-element frame border border-solid border-gray-400 border-1 relative snap-x snap-mandatory flex-1 block mr-4 py-2 mb-2 hover:text-white group cursor-pointer h-auto ${
+  class={`gallery-element frame border border-solid border-gray-400 border-1 relative snap-x snap-mandatory flex-1 block py-2 mb-2 hover:text-white group cursor-pointer h-auto ${
     width === "grow"
       ? "gallery-grow basis-[240px] flex-shrink-0 flex-grow-1"
       : ""
@@ -61,7 +61,9 @@
 >
   <div class="py-3 px-1 whitespace-normal block text-left w-full">
     <div class="block w-full group-hover:font-bold">
-      {item.title}
+      <h3 class="w-full min-h-[1em] block text-lg font-bold">
+        {item.title}
+      </h3>
     </div>
     <div class="block w-1/2 text-sm text-gray-500">
       {item.dueDate}

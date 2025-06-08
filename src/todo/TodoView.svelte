@@ -84,14 +84,14 @@
   bind:this={rootElement}
   class="dark min-w-full py-4 flex flex-col overflow-x-auto snap-x snap-mandatory"
 >
-  <div class="block w-full text-sm text-gray-500">
+  <div class="block w-full text-sm text-gray-500 px-2">
     {todos.length}
     {todos.length === 1 ? "card" : "cards"}
   </div>
   <BoardRow>
     {#each columnNamesList as groupName}
       <BoardColumn>
-        <h3 class="w-full min-h-[1em] block text-lg font-bold">{groupName}</h3>
+        <h3 class="w-full min-h-[1em] block text-lg font-bold">{groupName.toUpperCase()}</h3>
       </BoardColumn>
     {/each}
   </BoardRow>

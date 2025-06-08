@@ -2,7 +2,7 @@
   let { children } = $props();
 </script>
 
-<div class="todo-row flex">
+<div class="todo-row flex px-2">
   {@render children?.()}
 </div>
 

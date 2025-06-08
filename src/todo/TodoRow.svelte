@@ -22,8 +22,10 @@
   // TODO: make width configurable
 </script>
 
-<h2 class="sticky py-2 left-0 z-10 w-full text-lg font-bold opacity-60">
-  {title}
+<h2
+  class="sticky p-2 left-0 z-10 w-full text-lg font-bold opacity-60"
+>
+  {title.toUpperCase()}
 </h2>
 <BoardRow>
   {#each sortedGroups as [name, todos]}

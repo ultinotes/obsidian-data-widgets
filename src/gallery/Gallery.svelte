@@ -37,12 +37,14 @@
   //   // TODO: add exception handling
   //   window.app.workspace.trigger("hover-link", { e, linkText, source: "" });
   // };
+
+  // TODO: add element to add new entries
 </script>
 
 {#if style === "grid"}
   <div
     bind:this={rootElement}
-    class="dark min-w-full py-4 flex flex-row flex-wrap"
+    class="dark min-w-full py-4 flex flex-row flex-wrap gap-4"
   >
     {#each items as item}
       <GalleryElement {item} width="grow"></GalleryElement>
@@ -53,7 +55,7 @@
 {#if style === "list"}
   <div
     bind:this={rootElement}
-    class="dark min-w-full py-4 flex flex-row flex-wrap"
+    class="dark min-w-full py-4 flex flex-row flex-wrap gap-4"
   >
     {#each items as item}
       <GalleryElement {item} width="full"></GalleryElement>
@@ -63,7 +65,7 @@
 {#if style === "slide"}
   <div
     bind:this={rootElement}
-    class="dark min-w-full py-4 flex flex-row overflow-x-auto snap-x snap-mandatory"
+    class="dark min-w-full py-4 flex flex-row overflow-x-auto snap-x snap-mandatory gap-4"
   >
     {#each items as item}
       <GalleryElement {item}></GalleryElement>
