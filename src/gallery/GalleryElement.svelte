@@ -61,7 +61,7 @@
 >
   <div class="py-3 px-1 whitespace-normal block text-left w-full">
     <div class="block w-full group-hover:font-bold">
-      <h3 class="w-full min-h-[1em] block text-lg font-bold mb-0">
+      <h3 class="w-full min-h-[1em] block text-lg font-bold mb-0 mt-0">
         {item.title}
       </h3>
     </div>
