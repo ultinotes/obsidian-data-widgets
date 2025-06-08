@@ -10,7 +10,7 @@
 
 <BoardColumn>
   {#each todos as todo}
-    <TodoElement filename={""} {todo}></TodoElement>
+    <TodoElement {todo}></TodoElement>
   {/each}
   <FileCreatorButton onAdd={addTodo} />
 </BoardColumn>

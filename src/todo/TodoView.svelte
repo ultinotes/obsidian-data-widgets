@@ -72,11 +72,12 @@
     );
   });
 
-  // TODO: add tests
-  const mouseEnter = (e: MouseEvent, linkText: string) => {
-    // TODO: add exception handling
-    window.app.workspace.trigger("hover-link", { e, linkText, source: "" });
-  };
+  // TODO: implement hover
+  // // TODO: add tests
+  // const mouseEnter = (e: MouseEvent, linkText: string) => {
+  //   // TODO: add exception handling
+  //   window.app.workspace.trigger("hover-link", { e, linkText, source: "" });
+  // };
 </script>
 
 <div

@@ -4,7 +4,6 @@
   import Frame from "../common/Frame.svelte";
   import { onMount } from "svelte";
 
-  export let filename = "";
   export let todo: Todo;
   export let onClick: (fileHandle: TFile) => any = () => {};
 
