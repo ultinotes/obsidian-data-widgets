@@ -1,4 +1,4 @@
-import type { TFile } from "obsidian";
+import { TFolder, type TFile } from "obsidian";
 
 // import type { CachedMetadata, Component, OpenViewState, TFile } from "obsidian";
 
@@ -41,7 +41,10 @@ export async function createFileWithFrontmatter(
   // Combine frontmatter and content
   const fileContent = `${frontmatterString}\n${content}`;
 
+  console.log("Ensuring directory exists for file:", filePath);
   await ensureDirectoryExists(filePath);
+
+  console.log("Directory ensured, creating file:", filePath);
   // Create the file in the vault
   const createdFile = await window.app.vault.create(filePath, fileContent);
 
@@ -53,9 +56,22 @@ async function ensureDirectoryExists(filePath: string) {
   parts.pop(); // Remove the file name
   let currentPath = "";
   for (const part of parts) {
-    currentPath += part + "/";
-    if (!(await window.app.vault.adapter.exists(currentPath))) {
+    // NOTE: path will only be found without traling slash
+    currentPath += part;
+    const abstractPath = window.app.vault.getAbstractFileByPath(currentPath);
+    if (!abstractPath) {
+      console.log(`Path non-existent, creating folder at path: ${currentPath}`);
+      // this path doesnt exist yet
       await window.app.vault.createFolder(currentPath);
+    } else if (!(abstractPath instanceof TFolder)) {
+      console.log("Path exists but is not a folder:", currentPath);
+      // this path is not a folder, so we cannot create a folder here
+      // TODO: notify the user with a notification about all the unhandled exceptions -> global exception handler
+      throw new Error(
+        `Cannot create folder at ${currentPath}: path already exists and is not a folder.`
+      );
     }
+    // NOTE: now we can safely add the trailing slash
+    currentPath += "/";
   }
 }

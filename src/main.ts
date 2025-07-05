@@ -89,12 +89,12 @@ window.createGallery = (container, data, options) => {
 
 export default class ObsidianVite extends Plugin {
   onload(): Promise<void> | void {
-    new Notice("ObsidianVite plugin loaded");
-    this.addSettingTab(new ObsidianViteSettingTab(this.app, this));
+    // new Notice("ObsidianVite plugin loaded");
+    // this.addSettingTab(new ObsidianViteSettingTab(this.app, this));
   }
 
   onunload(): void {
-    new Notice("Ultinotes loaded");
+    // new Notice("Ultinotes loaded");
   }
 }
 
